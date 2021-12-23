@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { appRoutes } from "@/constants";
-import Login from "@/components/auth/Login.vue";
+import Login from "@/views/auth/Login.vue";
+import Register from "@/views/auth/Register.vue";
 
 Vue.use(VueRouter);
 
@@ -9,7 +10,7 @@ const routes = [
   {
     path: "/signup",
     name: appRoutes.REGISTER_PATH,
-    component: Login,
+    component: Register,
     meta: {
       requiresAuth: false,
     },

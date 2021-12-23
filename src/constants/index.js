@@ -3,3 +3,8 @@ export const appRoutes = {
   REGISTER_PATH: "register",
   HOME_PATH: "home",
 };
+
+export const notificationTypes = {
+  ERROR: "error",
+  SUCCESS: "success",
+};

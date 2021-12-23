@@ -5,14 +5,30 @@
       <form v-on:submit.prevent="onSubmit">
         <label>
           Username
-          <input type="text" class="login-input" v-model="username" />
+          <input type="text" required class="login-input" v-model="username" />
         </label>
         <label>
           Password
-          <input type="password" class="login-input" v-model="password" />
+          <input
+            type="password"
+            required
+            class="login-input"
+            v-model="password"
+          />
         </label>
+        <div class="register-text">
+          <router-link class="register-link" :to="{ name: registerPath }"
+            >Register new account.</router-link
+          >
+        </div>
 
-        <button type="submit" class="login-submit">
+        <button
+          type="submit"
+          class="login-submit"
+          :class="{
+            'login-submit-disabled': disabledSubmit,
+          }"
+        >
           Login{{ loading ? " ..." : "" }}
         </button>
       </form>
@@ -20,6 +36,7 @@
   </div>
 </template>
 <script>
+import { appRoutes } from "@/constants";
 export default {
   name: "Login",
   data: () => {
@@ -27,7 +44,13 @@ export default {
       username: "",
       password: "",
       loading: false,
+      registerPath: appRoutes.REGISTER_PATH,
     };
+  },
+  computed: {
+    disabledSubmit() {
+      return this.username === "" || this.password === "";
+    },
   },
   methods: {
     onSubmit: () => {},
@@ -48,7 +71,7 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   background-color: #fff;
   border-radius: 10px;
-  width: 300px;
+  width: 280px;
 }
 .login-title {
   margin-top: 0;
@@ -77,6 +100,12 @@ export default {
   }
 }
 .login-submit-disabled {
-  background-color: #dfdce3;
+  background-color: #c2c2c2;
+  &:hover {
+    background-color: #c2c2c2;
+  }
+}
+.register-text {
+  text-align: right;
 }
 </style>
