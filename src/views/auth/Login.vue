@@ -53,6 +53,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("auth", ["loginUser"]),
     onSubmit: () => {},
   },
 };
