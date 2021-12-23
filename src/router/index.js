@@ -1,13 +1,31 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import { appRoutes } from "@/constants";
+import Login from "@/components/auth/Login.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
-]
+  {
+    path: "/signup",
+    name: appRoutes.REGISTER_PATH,
+    component: Login,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/login",
+    name: appRoutes.LOGIN_PATH,
+    component: Login,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
