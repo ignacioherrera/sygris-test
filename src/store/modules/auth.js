@@ -11,6 +11,7 @@ const state = {
 };
 const getters = {
   isLoggedIn: (state) => state.accessToken !== null,
+  getToken: (state) => state.accessToken,
 };
 const mutations = {
   LOGIN_USER(state, authData) {

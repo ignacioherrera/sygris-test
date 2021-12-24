@@ -1,4 +1,6 @@
 import axios from "axios";
+import store from "@/store";
+import { apiEndpoints } from "@/constants";
 
 /* Globally */
 const api = axios.create({
@@ -9,12 +11,34 @@ const api = axios.create({
 });
 
 /** Axios interceptor to add JWT Token */
-axios.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
-    return config;
+    if (
+      config.url === apiEndpoints.AUTH_SIGNIN_PATH ||
+      config.url === apiEndpoints.AUTH_LOGIN_PATH
+    ) {
+      return config;
+    } else {
+      const token = store.getters["auth/getToken"];
+      if (token !== null) {
+        config.headers["Authorization"] = token;
+      }
+    }
   },
   (err) => {
     return Promise.reject(err);
+  }
+);
+
+/** Intercept response to check unauthorize token and logout */
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const { status } = error.response;
+    if (status === 401 || status === 403) {
+      store.dispatch("auth/logout");
+    }
+    return Promise.reject(error);
   }
 );
 

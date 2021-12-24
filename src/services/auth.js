@@ -1,9 +1,8 @@
 import api from "@/api/api";
-const AUTH_SIGNIN_PATH = "createLogin";
-const AUTH_LOGIN_PATH = "login";
+import { apiEndpoints } from "@/constants";
 export default {
   loginUser(params) {
-    return api.post(AUTH_LOGIN_PATH, params);
+    return api.post(apiEndpoints.AUTH_LOGIN_PATH, params);
   },
-  registerUser: (params) => api.post(AUTH_SIGNIN_PATH, params),
+  registerUser: (params) => api.post(apiEndpoints.AUTH_SIGNIN_PATH, params),
 };
