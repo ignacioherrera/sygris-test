@@ -8,3 +8,5 @@ export const notificationTypes = {
   ERROR: "error",
   SUCCESS: "success",
 };
+
+export const AUTH_COOKIE = "AUTH";

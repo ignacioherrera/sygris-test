@@ -37,6 +37,7 @@
 </template>
 <script>
 import { appRoutes } from "@/constants";
+import { mapActions } from "vuex";
 export default {
   name: "Login",
   data: () => {
@@ -54,7 +55,19 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["loginUser"]),
-    onSubmit: () => {},
+    onSubmit() {
+      this.loading = true;
+      this.loginUser({
+        username: this.username,
+        password: this.password,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
