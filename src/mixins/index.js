@@ -22,7 +22,7 @@ const Utils = {
       }
       this.$toast[type](message, type.charAt(0).toUpperCase() + type.slice(1), {
         close: true,
-        timeout: 4000,
+        timeout: 3000,
         position: "topRight",
       });
     },

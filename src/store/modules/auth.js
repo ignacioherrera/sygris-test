@@ -42,7 +42,7 @@ const actions = {
           setCookie(
             AUTH_COOKIE,
             JSON.stringify({
-              token: state.accessToken,
+              accessToken: res.data.accessToken,
               expiration: res.data.expires,
               loginName: state.loginName,
             }),
@@ -61,8 +61,8 @@ const actions = {
     router.replace({ name: appRoutes.LOGIN_PATH });
   },
   tryAutoLogin({ commit, dispatch }) {
-    console.log("Trying to login");
     let authCookie = getCookie(AUTH_COOKIE);
+
     if (authCookie === null) {
       return;
     }

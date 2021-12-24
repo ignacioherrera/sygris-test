@@ -82,12 +82,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/scss/variables.scss";
 .login-page {
   display: flex;
   height: 100vh;
   width: 100%;
   align-items: center;
-  background-color: #e3dbd7;
+  background-color: $backgroundPrimaryColor;
   justify-content: center;
 }
 .login-container {
@@ -111,7 +112,7 @@ export default {
   margin-bottom: 20px;
 }
 .login-submit {
-  background-color: #4abdac;
+  background-color: $PrimaryButtonColor;
   border: none;
   padding: 10px 20px;
   font-size: 15px;
@@ -120,7 +121,7 @@ export default {
   font-weight: bold;
   cursor: pointer;
   &:hover {
-    background-color: #518a7b;
+    background-color: $PrimaryButtonHoverColor;
   }
 }
 .login-submit-disabled {

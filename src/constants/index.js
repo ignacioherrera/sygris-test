@@ -16,6 +16,6 @@ export const notificationTypes = {
   SUCCESS: "success",
 };
 
-export const AUTH_COOKIE = "AUTH";
+export const AUTH_COOKIE = "AUTH_COOKIE";
 
 export const SERVER_URL = "http://20.71.175.9:8001/api/";
