@@ -60,13 +60,14 @@ const actions = {
     router.replace({ name: appRoutes.LOGIN_PATH });
   },
   tryAutoLogin({ commit, dispatch }) {
+    console.log("Trying to login");
     let authCookie = getCookie(AUTH_COOKIE);
     if (authCookie === null) {
       return;
     }
     const authData = JSON.parse(authCookie);
-    commit(LOGIN_USER, authData.expiration);
-    dispatch("setLogoutTimer", authData);
+    commit(LOGIN_USER, authData);
+    dispatch("setLogoutTimer", authData.expiration);
   },
 };
 

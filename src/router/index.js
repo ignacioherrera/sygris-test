@@ -4,17 +4,31 @@ import { appRoutes } from "@/constants";
 import store from "@/store";
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
+import Home from "@/views/app/Home.vue";
+import Layout from "@/components/layout/Layout.vue";
 
 Vue.use(VueRouter);
-
 const routes = [
   {
     path: "/",
-    name: appRoutes.HOME_PATH,
-    component: Register,
+    redirect: "/app/",
+  },
+  {
+    path: "/app",
+    component: Layout,
     meta: {
       requiresAuth: true,
     },
+    children: [
+      {
+        path: "",
+        name: appRoutes.HOME_PATH,
+        component: Home,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+    ],
   },
   {
     path: "/signup",
@@ -33,7 +47,8 @@ const routes = [
     },
   },
 ];
-
+/**Load Auth data from Cookie before create the router*/
+store.dispatch("auth/tryAutoLogin");
 const router = new VueRouter({
   routes,
 });
