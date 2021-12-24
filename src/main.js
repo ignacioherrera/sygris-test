@@ -10,10 +10,12 @@ Vue.use(VueIziToast);
 
 /** Antd components */
 import "ant-design-vue/dist/antd.css";
-import { Modal, Button, Input } from "ant-design-vue";
+import { Modal, Button, Input, Icon, Spin } from "ant-design-vue";
 Vue.use(Modal);
 Vue.use(Button);
 Vue.use(Input);
+Vue.use(Icon);
+Vue.use(Spin);
 
 Vue.mixin(Mixins);
 Vue.config.productionTip = false;

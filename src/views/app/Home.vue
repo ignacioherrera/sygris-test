@@ -1,36 +1,66 @@
 <template>
   <div class="container">
     <div class="list-header">
-      <h1>List</h1>
-      <a-modal title="Title" :visible="visible" @cancel="closeModal">
-        <p>test</p>
-      </a-modal>
+      <create-node-modal
+        :visible="visibleCreate"
+        :parent="parentSelected"
+        @close="cancelCreate"
+        @saved="savedNode"
+      ></create-node-modal>
+      <h1>Nodes</h1>
+      <a-button type="primary" @click="createRootNode"
+        ><a-icon type="plus-circle" /> Add Node</a-button
+      >
+    </div>
+    <div class="list-body">
+      <node
+        v-for="item in rootNodes"
+        :node="item"
+        :key="'node' + item.id"
+      ></node>
     </div>
   </div>
 </template>
 <script>
-import api from "@/services/nodes";
 import { notificationTypes } from "@/constants";
+import CreateNodeModal from "../../components/nodes/CreateNodeModal.vue";
+import { mapActions, mapState } from "vuex";
+import Node from "../../components/nodes/Node.vue";
 export default {
-  name: "Home",
+  components: { CreateNodeModal, Node },
+  Nodename: "Home",
   data() {
     return {
-      nodeList: [],
       loading: false,
-      visible: true,
+      visibleCreate: false,
+      parentSelected: undefined,
     };
   },
   mounted() {
     this.loadNodes();
   },
+  computed: {
+    ...mapState("nodes", ["nodes"]),
+    rootNodes() {
+      return this.nodes.filter((item) => item.level === 0);
+    },
+  },
   methods: {
-    closeModal() {
-      this.visible = false;
+    ...mapActions("nodes", ["getNodeList"]),
+    cancelCreate() {
+      this.parent = undefined;
+      this.visibleCreate = false;
+    },
+    createRootNode() {
+      this.visibleCreate = true;
+    },
+    savedNode() {
+      this.loadNodes();
+      this.cancelCreate();
     },
     loadNodes() {
       this.loading = true;
-      api
-        .list()
+      this.getNodeList()
         .then((res) => {
           console.log(res);
           this.loading = true;
@@ -50,5 +80,10 @@ export default {
 <style lang="scss" scoped>
 .container {
   padding: 10px;
+}
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
