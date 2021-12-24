@@ -1,7 +1,7 @@
 <template>
   <nav class="header-layout">
     <span class="header-username">Welcome {{ loginName }}</span
-    ><button class="my-button my-button-primary" @click="logout">Logout</button>
+    ><button class="ant-btn ant-btn-primary" @click="logout">Logout</button>
   </nav>
 </template>
 <script>
@@ -30,5 +30,6 @@ export default {
 }
 .header-username {
   font-size: 18px;
+  margin-right: 10px;
 }
 </style>

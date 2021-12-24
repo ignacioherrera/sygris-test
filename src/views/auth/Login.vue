@@ -5,32 +5,32 @@
       <form v-on:submit.prevent="onSubmit">
         <label>
           Username
-          <input type="text" required class="login-input" v-model="username" />
+          <a-input type="text" required class="mb-general" v-model="username" />
         </label>
         <label>
           Password
-          <input
+          <a-input-password
             type="password"
             required
             class="login-input"
             v-model="password"
           />
         </label>
-        <div class="register-text">
+        <div class="register-text mb-general">
           <router-link class="register-link" :to="{ name: registerPath }"
             >Register new account.</router-link
           >
         </div>
 
-        <button
-          type="submit"
+        <a-button
+          type="primary"
+          html-type="submit"
           class="my-button my-button-primary"
-          :class="{
-            'my-button-disabled': disabledSubmit,
-          }"
+          :disabled="disabledSubmit"
+          :loading="loading"
         >
-          Login{{ loading ? " ..." : "" }}
-        </button>
+          Login
+        </a-button>
       </form>
     </div>
   </div>
@@ -91,6 +91,9 @@ export default {
   background-color: $backgroundPrimaryColor;
   justify-content: center;
 }
+.mb-general {
+  margin-bottom: 20px;
+}
 .login-container {
   padding: 20px 15px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -102,16 +105,8 @@ export default {
   margin-top: 0;
   color: #090909;
 }
-.login-input {
-  width: 100%;
-  padding: 10px 5px;
-  box-sizing: border-box;
-  border-radius: 10px;
-  border-width: 1px;
-  margin-top: 5px;
-  margin-bottom: 20px;
-}
 .register-text {
   text-align: right;
+  margin-top: 5px;
 }
 </style>
