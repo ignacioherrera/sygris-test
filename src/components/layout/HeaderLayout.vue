@@ -1,7 +1,7 @@
 <template>
   <nav class="header-layout">
     <span class="header-username">Welcome {{ loginName }}</span
-    ><button class="logout-button" @click="logout">Logout</button>
+    ><button class="my-button my-button-primary" @click="logout">Logout</button>
   </nav>
 </template>
 <script>
@@ -30,19 +30,5 @@ export default {
 }
 .header-username {
   font-size: 18px;
-}
-.logout-button {
-  background-color: $PrimaryButtonColor;
-  border: none;
-  margin-left: 10px;
-  padding: 10px 20px;
-  font-size: 15px;
-  color: #fff;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  &:hover {
-    background-color: $PrimaryButtonHoverColor;
-  }
 }
 </style>

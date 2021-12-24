@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h1>List</h1>
+    <div class="list-header">
+      <h1>List</h1>
+      
+    </div>
   </div>
 </template>
 <script>
@@ -38,3 +41,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.container {
+  padding: 10px;
+}
+</style>

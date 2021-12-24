@@ -33,9 +33,9 @@
 
         <button
           type="submit"
-          class="login-submit"
+          class="my-button my-button-primary"
           :class="{
-            'login-submit-disabled': disabledSubmit,
+            'my-button-disabled': disabledSubmit,
           }"
         >
           Sing In{{ loading ? " ..." : "" }}
@@ -123,25 +123,6 @@ export default {
   border-width: 1px;
   margin-top: 5px;
   margin-bottom: 20px;
-}
-.login-submit {
-  background-color: #4abdac;
-  border: none;
-  padding: 10px 20px;
-  font-size: 15px;
-  color: #fff;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  &:hover {
-    background-color: #518a7b;
-  }
-}
-.login-submit-disabled {
-  background-color: #c2c2c2;
-  &:hover {
-    background-color: #c2c2c2;
-  }
 }
 .register-text {
   text-align: right;
