@@ -8,6 +8,7 @@ export const appRoutes = {
 export const apiEndpoints = {
   AUTH_SIGNIN_PATH: "createLogin",
   AUTH_LOGIN_PATH: "login",
+  NODES: "nodes",
 };
 
 export const notificationTypes = {
@@ -16,3 +17,5 @@ export const notificationTypes = {
 };
 
 export const AUTH_COOKIE = "AUTH";
+
+export const SERVER_URL = "http://20.71.175.9:8001/api/";

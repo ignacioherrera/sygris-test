@@ -1,10 +1,10 @@
 import axios from "axios";
 import store from "@/store";
-import { apiEndpoints } from "@/constants";
+import { apiEndpoints, SERVER_URL } from "@/constants";
 
 /* Globally */
 const api = axios.create({
-  baseURL: "http://20.71.175.9:8001/api/",
+  baseURL: SERVER_URL,
   headers: {
     Accept: "application/json",
   },
