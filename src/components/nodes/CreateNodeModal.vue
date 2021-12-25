@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="New Node"
+    :title="title"
     :visible="visible"
     :confirm-loading="loading"
     okText="Create"
@@ -40,6 +40,10 @@ export default {
     level() {
       if (this.parent === undefined) return 0;
       else return this.parent.level + 1;
+    },
+    title() {
+      if (this.parent === undefined) return "New root node";
+      else return "New child node";
     },
   },
   methods: {

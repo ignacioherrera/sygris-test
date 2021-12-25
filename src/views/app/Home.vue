@@ -3,7 +3,6 @@
     <div class="list-header">
       <create-node-modal
         :visible="visibleCreate"
-        :parent="parentSelected"
         @close="cancelCreate"
         @saved="savedNode"
       ></create-node-modal>
@@ -33,7 +32,6 @@ export default {
     return {
       loading: false,
       visibleCreate: false,
-      parentSelected: undefined,
     };
   },
   mounted() {
@@ -61,9 +59,8 @@ export default {
     loadNodes() {
       this.loading = true;
       this.getNodeList()
-        .then((res) => {
-          console.log(res);
-          this.loading = true;
+        .then(() => {
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);

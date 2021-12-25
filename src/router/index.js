@@ -47,20 +47,17 @@ const routes = [
     },
   },
 ];
-/**Load Auth data from Cookie before create the router*/
-store.dispatch("auth/tryAutoLogin");
 const router = new VueRouter({
   routes,
 });
 router.beforeEach((to, from, next) => {
-  console.log({ to });
-  console.log(to.meta.requiresAuth);
   if (!to.meta.requiresAuth) next();
   else {
-    console.log(store.getters["auth/isLoggedIn"]);
     if (store.getters["auth/isLoggedIn"]) next();
     else {
-      next({ name: appRoutes.LOGIN_PATH });
+      store.dispatch("auth/tryAutoLogin");
+      if (store.getters["auth/isLoggedIn"]) next();
+      else next({ name: appRoutes.LOGIN_PATH });
     }
   }
 });

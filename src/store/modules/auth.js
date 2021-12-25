@@ -56,8 +56,8 @@ const actions = {
     });
   },
   logout({ commit }) {
-    commit(CLEAR_AUTH);
     removeCookie(AUTH_COOKIE);
+    commit(CLEAR_AUTH);
     router.replace({ name: appRoutes.LOGIN_PATH });
   },
   tryAutoLogin({ commit, dispatch }) {
