@@ -33,6 +33,12 @@
         >
       </div>
     </div>
+    <div>
+      <p>
+        There are {{ Childsrendered }} nodes rendered ({{ sublistsRendered }}
+        sublists)
+      </p>
+    </div>
     <div class="list-body">
       <node
         v-for="item in rootNodes"
@@ -53,15 +59,35 @@ export default {
     return {
       loading: false,
       visibleCreate: false,
+      sublistsActives: 0,
     };
   },
   mounted() {
     this.loadNodes();
   },
   computed: {
-    ...mapState("nodes", ["nodes"]),
+    ...mapState("nodes", ["nodes", "openNodes"]),
     rootNodes() {
       return this.nodes.filter((item) => item.level === 0);
+    },
+    sublistsRendered() {
+      let sum = 0;
+      this.rootNodes.forEach((element) => {
+        sum += this.countsublistActives(element);
+      });
+      return sum;
+    },
+    Childsrendered() {
+      let sum = this.rootNodes.length;
+      this.rootNodes.forEach((element) => {
+        sum += this.countChildrensActives(element);
+      });
+      return sum;
+    },
+  },
+  watch: {
+    openNodes(newOpenNodes, oldOpenNodes) {
+      this.sublistsActives = this.countsublistActives(this.rootNodes[0]);
     },
   },
   methods: {
@@ -69,6 +95,28 @@ export default {
     cancelCreate() {
       this.parent = undefined;
       this.visibleCreate = false;
+    },
+    countChildrensActives(node) {
+      let count = 0;
+      if (this.openNodes[node.id]) {
+        const childrens = this.nodes.filter((item) => item.parent === node.id);
+        count += childrens.length;
+        childrens.forEach((element) => {
+          count += this.countChildrensActives(element);
+        });
+      }
+      return count;
+    },
+    countsublistActives(node) {
+      let count = 0;
+      if (this.openNodes[node.id]) {
+        count += 1;
+        const childrens = this.nodes.filter((item) => item.parent === node.id);
+        childrens.forEach((element) => {
+          count += this.countsublistActives(element);
+        });
+      }
+      return count;
     },
     createRootNode() {
       this.visibleCreate = true;

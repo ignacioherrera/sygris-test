@@ -155,9 +155,7 @@ describe("Home displays nodes correctly", () => {
     });
     await wrapper.findComponent(".open-lists").trigger("click");
     const nodeComponents = wrapper.findAllComponents(Node);
-    expect(nodeComponents.filter((item) => item.vm.open === false).length).toBe(
-      0
-    );
+    expect(nodeComponents.filter((item) => item.vm.open).length).toBe(6);
   });
   it("Close all lists", async () => {
     const wrapper = mount(Home, {

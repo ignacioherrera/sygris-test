@@ -23,6 +23,7 @@ const mutations = {
   },
   CHANGE_OPEN_NODE(state, params) {
     state.openNodes[params.id] = params.value;
+    state.openNodes = JSON.parse(JSON.stringify(state.openNodes));
   },
 };
 const actions = {

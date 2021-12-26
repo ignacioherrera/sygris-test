@@ -138,8 +138,10 @@ export default {
       this.toggleNode({ id: this.node.id, value: this.open });
     },
     generalOpen(open) {
-      this.open = open;
-      this.toggleNode({ id: this.node.id, value: this.open });
+      if (this.childrens.length > 0) {
+        this.open = open;
+        this.toggleNode({ id: this.node.id, value: this.open });
+      }
     },
     showEdit() {
       this.editVisible = true;
