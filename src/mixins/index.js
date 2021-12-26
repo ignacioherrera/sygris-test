@@ -13,6 +13,18 @@ const Utils = {
     return {};
   },
   methods: {
+    handleCommonErrors(error) {
+      let message = error.response.data.innerException;
+      const { status } = error.response;
+      if (status === 401 || status === 403) {
+        message = "User not allowed please login again";
+      }
+      if (error.response)
+        this.createNotification({
+          type: this.$constants.notificationTypes.ERROR,
+          message: message,
+        });
+    },
     createNotification(props) {
       let type = "success";
       let message = "Successful operation";

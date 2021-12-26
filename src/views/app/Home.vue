@@ -62,11 +62,7 @@ export default {
           this.loading = false;
         })
         .catch((error) => {
-          console.log(error);
-          this.createNotification({
-            type: this.$constants.notificationTypes.ERROR,
-            //message: error.response.data.innerException,
-          });
+          this.handleCommonErrors(error);
           this.loading = false;
         });
     },

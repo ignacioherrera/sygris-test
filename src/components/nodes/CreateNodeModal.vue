@@ -66,11 +66,7 @@ export default {
           this.$emit("saved", {});
         })
         .catch((error) => {
-          console.log(error);
-          this.createNotification({
-            type: this.$constants.notificationTypes.ERROR,
-            //message: error.response.data.innerException,
-          });
+          this.handleCommonErrors(error);
           this.loading = false;
         });
       //  this.$emit("close", {});

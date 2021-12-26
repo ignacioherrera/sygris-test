@@ -113,8 +113,7 @@ export default {
           this.loadingChilds = false;
           this.visibleCreate = false;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.createNotification({
             type: this.$constants.notificationTypes.ERROR,
             message: "Loading the node list",

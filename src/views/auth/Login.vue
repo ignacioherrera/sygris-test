@@ -69,10 +69,7 @@ export default {
           this.$router.push({ name: this.$constants.appRoutes.HOME_PATH });
         })
         .catch((error) => {
-          this.createNotification({
-            type: this.$constants.notificationTypes.ERROR,
-            message: error.response.data.innerException,
-          });
+          this.handleCommonErrors(error);
           this.loading = false;
         });
     },
