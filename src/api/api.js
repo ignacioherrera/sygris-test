@@ -20,7 +20,6 @@ api.interceptors.request.use(
       return config;
     } else {
       const token = store.getters["auth/getToken"];
-      console.log(token);
       if (token !== null) {
         config.headers["Authorization"] = token;
       }

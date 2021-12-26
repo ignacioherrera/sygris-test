@@ -76,8 +76,7 @@ export default {
           loginname: this.username,
           password: this.password,
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.createNotification({
             type: notificationTypes.SUCCESS,
             message: "Account Created",

@@ -190,7 +190,6 @@ export default {
           this.editVisible = false;
         })
         .catch((error) => {
-          console.log(error);
           this.handleCommonErrors(error);
         });
     },
@@ -244,14 +243,12 @@ export default {
                   });
               })
               .catch((error) => {
-                console.log(error);
                 handleError(error);
                 reject(error);
               });
           });
         },
         onCancel() {
-          console.log("Cancel");
         },
       });
     },
@@ -266,7 +263,6 @@ export default {
         .create(params)
         .then((newParent) => {
           this.copyChildList(this.node, newParent.data).then(() => {
-            console.log("termino");
             this.savedNode();
             this.createNotification({
               type: notificationTypes.SUCCESS,
@@ -276,7 +272,6 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
           this.handleCommonErrors(error);
         });
     },
@@ -299,17 +294,14 @@ export default {
           .then((newChilds) => {
             const childsCopied = [];
             childs.forEach((el, index) => {
-              console.log({ el }, "new child", newChilds[index].data);
               childsCopied.push(this.copyChildList(el, newChilds[index].data));
             });
             Promise.all(childsCopied).then(() => {
-              console.log("executado");
               resolve();
             });
           })
-          .catch((error) => {
+          .catch(() => {
             reject();
-            console.log(error);
           });
       });
     },
