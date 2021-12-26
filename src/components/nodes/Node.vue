@@ -60,7 +60,6 @@
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
-import { notificationTypes } from "@/constants";
 import CreateNodeModal from "./CreateNodeModal.vue";
 
 export default {
@@ -117,7 +116,7 @@ export default {
         .catch((error) => {
           console.log(error);
           this.createNotification({
-            type: notificationTypes.ERROR,
+            type: this.$constants.notificationTypes.ERROR,
             message: "Loading the node list",
           });
           this.loadingChilds = false;
