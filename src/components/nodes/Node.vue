@@ -41,7 +41,6 @@
           size="small"
           type="link"
           icon="delete"
-          class="collapse-btn"
           v-if="childrens.length === 0"
           shape="circle"
         >
@@ -61,7 +60,6 @@
           size="small"
           type="link"
           icon="copy"
-          class="collapse-btn"
           v-if="childrens.length > 0"
           shape="circle"
         >
@@ -211,6 +209,9 @@ export default {
     },
     deleteNode() {
       const thisNode = this.node;
+      const refreshList = this.getNodeList;
+      const notify = this.createNotification;
+      const handleError = this.handleCommonErrors;
       this.$confirm({
         title: "Are you sure delete this task?",
         content: "Some descriptions",
@@ -220,20 +221,32 @@ export default {
         cancelText: "No",
         onOk() {
           console.log(thisNode);
-          api
-            .delete({ id: 'sdbsdbssdbddfbdf' })
-            .then(() => {
-              this.createNotification({
-                type: notificationTypes.SUCCESS,
-                message: `Node deleted succesfully`,
+          return new Promise((resolve, reject) => {
+            api
+              .delete({ data: { id: thisNode.id } })
+              .then(() => {
+                notify({
+                  type: notificationTypes.SUCCESS,
+                  message: `Node deleted succesfully`,
+                });
+                refreshList()
+                  .then(() => {
+                    resolve();
+                  })
+                  .catch((error) => {
+                    notify({
+                      type: notificationTypes.ERROR,
+                      message: "Loading the node list",
+                    });
+                    reject(error);
+                  });
+              })
+              .catch((error) => {
+                console.log(error);
+                handleError(error);
+                reject(error);
               });
-              this.$emit("saved", {});
-            })
-            .catch((error) => {
-              console.log(error);
-              this.handleCommonErrors(error);
-              this.loading = false;
-            });
+          });
         },
         onCancel() {
           console.log("Cancel");
