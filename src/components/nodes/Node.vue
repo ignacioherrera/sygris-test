@@ -207,6 +207,7 @@ export default {
           this.loadingChilds = false;
         });
     },
+    /** Delete leaf option */
     deleteNode() {
       const thisNode = this.node;
       const refreshList = this.getNodeList;
@@ -220,7 +221,6 @@ export default {
         confirmLoading: this.deleting,
         cancelText: "No",
         onOk() {
-          console.log(thisNode);
           return new Promise((resolve, reject) => {
             api
               .delete({ data: { id: thisNode.id } })
@@ -253,7 +253,62 @@ export default {
         },
       });
     },
-    copyList() {},
+    copyList() {
+      let params = {
+        name: this.name,
+        level: this.node.level,
+      };
+      if (this.node.parent !== undefined) params.parent = this.node.parent;
+      api
+        .create(params)
+        .then((newParent) => {
+          this.copyChildList(this.node, newParent.data).then(() => {
+            console.log("termino");
+            this.savedNode();
+            this.createNotification({
+              type: notificationTypes.SUCCESS,
+              message: "List copied succesfully",
+            });
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          this.handleCommonErrors(error);
+        });
+    },
+    copyChildList(oldParent, newParent) {
+      return new Promise((resolve, reject) => {
+        const childs = this.nodes.filter(
+          (item) => item.parent === oldParent.id
+        );
+        const promises = [];
+        if (childs.length === 0) resolve();
+        childs.forEach((element) => {
+          let params = {
+            parent: newParent.id,
+            name: element.name,
+            level: element.level,
+          };
+          promises.push(api.create(params));
+        });
+        Promise.all(promises)
+          .then((newChilds) => {
+            const childsCopied = [];
+            childs.forEach((el, index) => {
+              console.log({ el }, "new child", newChilds[index].data);
+              childsCopied.push(this.copyChildList(el, newChilds[index].data));
+            });
+            Promise.all(childsCopied).then(() => {
+              console.log("executado");
+              resolve();
+            });
+          })
+          .catch((error) => {
+            reject();
+            console.log(error);
+          });
+      });
+    },
   },
 };
 </script>

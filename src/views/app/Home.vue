@@ -85,11 +85,6 @@ export default {
       return sum;
     },
   },
-  watch: {
-    openNodes(newOpenNodes, oldOpenNodes) {
-      this.sublistsActives = this.countsublistActives(this.rootNodes[0]);
-    },
-  },
   methods: {
     ...mapActions("nodes", ["getNodeList"]),
     cancelCreate() {
