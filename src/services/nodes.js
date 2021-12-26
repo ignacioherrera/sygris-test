@@ -11,6 +11,7 @@ export default {
     return api.post(apiEndpoints.NODES, params);
   },
   update(params) {
+    console.log(params);
     return api.put(apiEndpoints.NODES, params);
   },
   delete(id) {

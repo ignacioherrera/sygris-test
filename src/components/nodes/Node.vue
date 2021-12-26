@@ -8,7 +8,32 @@
     ></create-node-modal>
     <div class="node-header">
       <div class="title">
-        {{ node.name }}
+        <span class="title-span" v-if="!editVisible" @click="showEdit">{{
+          node.name
+        }}</span>
+        <div
+          class="edit-container"
+          :style="!editVisible ? { display: 'none' } : {}"
+        >
+          <a-input required v-model="name"></a-input>
+          <a-button
+            size="small"
+            type="primary"
+            class="edit-actions"
+            icon="save"
+            @click="SaveEdit"
+            :disabled="disableEditSubmit"
+            shape="circle"
+          ></a-button>
+          <a-button
+            size="small"
+            type="danger"
+            class="edit-actions"
+            @click="closeEdit"
+            icon="close"
+            shape="circle"
+          ></a-button>
+        </div>
       </div>
       <div class="header-functions">
         <a-button
@@ -71,6 +96,8 @@ export default {
       open: false,
       visibleCreate: false,
       loadingChilds: false,
+      editVisible: false,
+      name: "",
     };
   },
   props: {
@@ -78,6 +105,7 @@ export default {
   },
   mounted() {
     this.$bus.$on("toggle-lists", this.generalOpen);
+    this.name = this.node.name;
     this.open =
       this.openNodes[this.node.id] === undefined
         ? false
@@ -88,6 +116,14 @@ export default {
     indent() {
       return 8 * (this.node.level + 1) + "px";
     },
+    disableEditSubmit() {
+      const regexp = /.*([A-Z]|[a-z]|[1-9])+.*/;
+      return (
+        this.name === "" ||
+        this.name === this.node.name ||
+        !regexp.test(this.name)
+      );
+    },
     collapseHeight() {
       return this.open ? "100%" : "0";
     },
@@ -96,7 +132,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("nodes", ["toggleNode", "getNodeList"]),
+    ...mapActions("nodes", ["toggleNode", "getNodeList", "editNode"]),
     toggleOpen() {
       this.open = !this.open;
       this.toggleNode({ id: this.node.id, value: this.open });
@@ -105,17 +141,39 @@ export default {
       this.open = open;
       this.toggleNode({ id: this.node.id, value: this.open });
     },
+    showEdit() {
+      this.editVisible = true;
+    },
+    closeEdit() {
+      this.name = this.node.name;
+      this.editVisible = false;
+    },
     createChildren() {
       this.visibleCreate = true;
     },
     cancelCreate() {
       this.visibleCreate = false;
     },
+    SaveEdit() {
+      let newNode = Object.assign(this.node);
+      newNode.name = this.name;
+      this.editNode(newNode)
+        .then((res) => {
+          this.createNotification({
+            type: notificationTypes.success,
+            message: `Node name chaged to ${res.name}`,
+          });
+          this.editVisible = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.handleCommonErrors(error);
+        });
+    },
     savedNode() {
       this.loadingChilds = true;
       this.getNodeList()
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.loadingChilds = false;
           this.visibleCreate = false;
         })
@@ -139,6 +197,18 @@ export default {
   font-size: 18px;
   padding: 2px 0;
 }
+.title-span {
+  cursor: pointer;
+}
+.edit-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.edit-actions {
+  margin-left: 5px;
+}
+
 .childrens-container {
   overflow: hidden;
   height: 0;
