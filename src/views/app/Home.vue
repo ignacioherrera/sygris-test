@@ -39,13 +39,15 @@
         sublists)
       </p>
     </div>
-    <div class="list-body">
-      <node
-        v-for="item in rootNodes"
-        :node="item"
-        :key="'node' + item.id"
-      ></node>
-    </div>
+    <a-spin :spinning="loading">
+      <div class="list-body">
+        <node
+          v-for="item in rootNodes"
+          :node="item"
+          :key="'node' + item.id"
+        ></node>
+      </div>
+    </a-spin>
   </div>
 </template>
 <script>
