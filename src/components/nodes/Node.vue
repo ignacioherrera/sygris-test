@@ -81,7 +81,7 @@
       <div
         class="childrens-container"
         :class="{ 'childrens-container-open': open }"
-        :style="{ paddingLeft: indent }"
+        style="padding-left: 10px"
       >
         <node
           v-for="item in childrens"
@@ -135,9 +135,6 @@ export default {
   },
   computed: {
     ...mapState("nodes", ["nodes", "openNodes"]),
-    indent() {
-      return 8 * (this.node.level + 1) + "px";
-    },
     disableEditSubmit() {
       const regexp = /.*([A-Z]|[a-z]|[1-9])+.*/;
       return (
@@ -248,8 +245,7 @@ export default {
               });
           });
         },
-        onCancel() {
-        },
+        onCancel() {},
       });
     },
     copyList() {
