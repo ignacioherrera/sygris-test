@@ -21,7 +21,6 @@
   </div>
 </template>
 <script>
-import { notificationTypes } from "@/constants";
 import CreateNodeModal from "@/components/nodes/CreateNodeModal.vue";
 import { mapActions, mapState } from "vuex";
 import Node from "@/components/nodes/Node.vue";
@@ -65,7 +64,7 @@ export default {
         .catch((error) => {
           console.log(error);
           this.createNotification({
-            type: notificationTypes.ERROR,
+            type: this.$constants.notificationTypes.ERROR,
             //message: error.response.data.innerException,
           });
           this.loading = false;

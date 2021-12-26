@@ -36,9 +36,7 @@
   </div>
 </template>
 <script>
-import { appRoutes } from "@/constants";
 import { mapActions } from "vuex";
-import { notificationTypes } from "@/constants";
 export default {
   name: "Login",
   data: () => {
@@ -46,7 +44,7 @@ export default {
       username: "",
       password: "",
       loading: false,
-      registerPath: appRoutes.REGISTER_PATH,
+      registerPath: this.$constants.appRoutes.REGISTER_PATH,
     };
   },
   computed: {
@@ -64,15 +62,15 @@ export default {
       })
         .then((res) => {
           this.createNotification({
-            type: notificationTypes.SUCCESS,
+            type: this.$constants.notificationTypes.SUCCESS,
             message: `User ${res} logged in succesfully`,
           });
           this.loading = false;
-          this.$router.push({ name: appRoutes.HOME_PATH });
+          this.$router.push({ name: this.$constants.appRoutes.HOME_PATH });
         })
         .catch((error) => {
           this.createNotification({
-            type: notificationTypes.ERROR,
+            type: this.$constants.notificationTypes.ERROR,
             message: error.response.data.innerException,
           });
           this.loading = false;

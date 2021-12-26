@@ -45,7 +45,6 @@
   </div>
 </template>
 <script>
-import { appRoutes, notificationTypes } from "@/constants";
 import auth from "@/services/auth";
 export default {
   name: "Register",
@@ -55,7 +54,7 @@ export default {
       password: "",
       confirmPassword: "",
       loading: false,
-      loginPath: appRoutes.LOGIN_PATH,
+      loginPath: this.$constants.appRoutes.LOGIN_PATH,
     };
   },
   computed: {
@@ -78,15 +77,15 @@ export default {
         .then((res) => {
           console.log(res);
           this.createNotification({
-            type: notificationTypes.SUCCESS,
+            type: this.$constants.notificationTypes.SUCCESS,
             message: "Account Created",
           });
           this.loading = false;
-          this.$router.push({ name: appRoutes.LOGIN_PATH });
+          this.$router.push({ name: this.$constants.appRoutes.LOGIN_PATH });
         })
         .catch((error) => {
           this.createNotification({
-            type: notificationTypes.ERROR,
+            type: this.$constants.notificationTypes.ERROR,
             message: error.response.data.innerException,
           });
           this.loading = false;
