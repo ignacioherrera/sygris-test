@@ -27,6 +27,7 @@ export default {
   width: 100%;
   box-sizing: border-box;
   top: 0;
+  z-index: 1;
 }
 .header-username {
   font-size: 18px;

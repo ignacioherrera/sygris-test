@@ -60,6 +60,7 @@
           size="small"
           type="link"
           icon="copy"
+          :loading="copyLoading"
           v-if="childrens.length > 0"
           shape="circle"
         >
@@ -115,6 +116,7 @@ export default {
       open: false,
       visibleCreate: false,
       loadingChilds: false,
+      copyLoading: false,
       editVisible: false,
       name: "",
       deleting: true,
@@ -254,6 +256,7 @@ export default {
       });
     },
     copyList() {
+      this.copyLoading = true;
       let params = {
         name: this.name,
         level: this.node.level,
@@ -269,6 +272,7 @@ export default {
               type: notificationTypes.SUCCESS,
               message: "List copied succesfully",
             });
+            this.copyLoading = false;
           });
         })
         .catch((error) => {
