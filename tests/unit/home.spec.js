@@ -1,5 +1,7 @@
 import { shallowMount, createLocalVue, mount } from "@vue/test-utils";
 import Node from "@/components/nodes/Node.vue";
+import CreateNodeModal from "@/components/nodes/CreateNodeModal.vue";
+import Home from "@/views/app/Home.vue";
 import Vuex from "vuex";
 const localVue = createLocalVue();
 import { Modal, Button, Input, Icon, Spin } from "ant-design-vue";
@@ -8,8 +10,10 @@ localVue.use(Button);
 localVue.use(Input);
 localVue.use(Icon);
 localVue.use(Spin);
+localVue.component("node", Node);
+localVue.component("create-node-modal", CreateNodeModal);
 
-describe("Node tests", () => {
+describe("Home displays nodes correctly", () => {
   /**Store mock */
   const state = {
     nodes: [
@@ -109,7 +113,6 @@ describe("Node tests", () => {
     openNodes: {},
   };
   const actions = {
-    toggleNode() {},
     getNodeList() {
       return new Promise((resolve) => {
         resolve();
@@ -127,45 +130,27 @@ describe("Node tests", () => {
   });
   localVue.use(Vuex);
 
-  const nodeWith2Childs = {
-    id: "61c65b96795eac001b5e2d85",
-    name: "Jany",
-    parent: "61c63cf6795eac001b5e2d84",
-    created: "2021-12-24T23:45:26.672Z",
-    updated: "2021-12-24T23:45:26.672Z",
-    level: 1,
-  };
-  it("node gets all childs", () => {
-    const wrapper = shallowMount(Node, {
-      propsData: {
-        node: nodeWith2Childs,
-      },
+  it("Home display all root nodes", () => {
+    const wrapper = shallowMount(Home, {
       store,
       localVue,
     });
-    expect(wrapper.vm.childrens.length).toBe(2);
+    const nodeComponents = wrapper.findAllComponents(Node);
+    expect(nodeComponents.length).toBe(4);
     expect(
-      wrapper.vm.childrens.findIndex(
-        (item) => item.parent !== wrapper.vm.node.id
-      )
-    ).toBe(-1);
+      nodeComponents.filter((item) => item.vm.node.level !== 0).length
+    ).toBe(0);
   });
-  it("parent node toggle collapse", async () => {
-    const wrapper = mount(Node, {
-      propsData: {
-        node: nodeWith2Childs,
-      },
+  /**
+Home display root nodes and every node displays its childrens, the next test is to check that the 
+number of nodes displayed is equal to the lenght of the list from the api saved in the store state
+ */
+  it("Home display all nodes", () => {
+    const wrapper = mount(Home, {
       store,
       localVue,
     });
-    /** Click the toggle button, check open property is true and if the class .childrens-container-open that changes the height is added to the childrens container */
-    await wrapper.findComponent(".collapse-btn").trigger("click");
-    expect(wrapper.vm.open).toBeTruthy();
-    expect(wrapper.find(".childrens-container-open").exists()).toBe(true);
-
-    /** Click the toggle button, check open property is true and if the class .childrens-container-open that changes the height is added to the childrens container */
-    await wrapper.findComponent(".collapse-btn").trigger("click");
-    expect(wrapper.vm.open).toBeFalsy();
-    expect(wrapper.find(".childrens-container-open").exists()).toBe(false);
+    const nodeComponents = wrapper.findAllComponents(Node);
+    expect(nodeComponents.length).toBe(12);
   });
 });

@@ -25,7 +25,7 @@
           @click="toggleOpen"
           size="small"
           type="link"
-          id="collapse-btn"
+          class="collapse-btn"
           v-if="childrens.length > 0"
           shape="circle"
         >
@@ -52,7 +52,7 @@
           type="default"
           v-if="childrens.length !== 0"
         >
-          <a-icon type="plus" /> Create another child
+          <a-icon type="plus" /> Add another child to {{ node.name }}
         </a-button>
       </div>
     </a-spin>
@@ -77,7 +77,10 @@ export default {
     node: Object,
   },
   mounted() {
-    this.open = this.openNodes[this.node.id];
+    this.open =
+      this.openNodes[this.node.id] === undefined
+        ? false
+        : this.openNodes[this.node.id];
   },
   computed: {
     ...mapState("nodes", ["nodes", "openNodes"]),

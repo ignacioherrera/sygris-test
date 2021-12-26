@@ -22,12 +22,12 @@
 </template>
 <script>
 import { notificationTypes } from "@/constants";
-import CreateNodeModal from "../../components/nodes/CreateNodeModal.vue";
+import CreateNodeModal from "@/components/nodes/CreateNodeModal.vue";
 import { mapActions, mapState } from "vuex";
-import Node from "../../components/nodes/Node.vue";
+import Node from "@/components/nodes/Node.vue";
 export default {
   components: { CreateNodeModal, Node },
-  Nodename: "Home",
+  name: "Home",
   data() {
     return {
       loading: false,
