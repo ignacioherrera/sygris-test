@@ -37,14 +37,34 @@
       </div>
       <div class="header-functions">
         <a-button
-          @click="createChildren"
+          @click="deleteNode"
           size="small"
-          title="Add child"
-          type="primary"
+          type="link"
+          icon="delete"
+          class="collapse-btn"
           v-if="childrens.length === 0"
           shape="circle"
         >
-          <a-icon type="plus" />
+        </a-button>
+        <a-button
+          @click="createChildren"
+          size="small"
+          title="Add child"
+          type="link"
+          icon="plus"
+          v-if="childrens.length === 0"
+          shape="circle"
+        >
+        </a-button>
+        <a-button
+          @click="copyList"
+          size="small"
+          type="link"
+          icon="copy"
+          class="collapse-btn"
+          v-if="childrens.length > 0"
+          shape="circle"
+        >
         </a-button>
         <a-button
           @click="toggleOpen"
@@ -87,6 +107,7 @@
 import { mapActions, mapState } from "vuex";
 import CreateNodeModal from "./CreateNodeModal.vue";
 import { notificationTypes } from "@/constants";
+import api from "@/services/nodes";
 
 export default {
   components: { CreateNodeModal },
@@ -98,6 +119,7 @@ export default {
       loadingChilds: false,
       editVisible: false,
       name: "",
+      deleting: true,
     };
   },
   props: {
@@ -187,6 +209,38 @@ export default {
           this.loadingChilds = false;
         });
     },
+    deleteNode() {
+      const thisNode = this.node;
+      this.$confirm({
+        title: "Are you sure delete this task?",
+        content: "Some descriptions",
+        okText: "Yes",
+        okType: "danger",
+        confirmLoading: this.deleting,
+        cancelText: "No",
+        onOk() {
+          console.log(thisNode);
+          api
+            .delete({ id: 'sdbsdbssdbddfbdf' })
+            .then(() => {
+              this.createNotification({
+                type: notificationTypes.SUCCESS,
+                message: `Node deleted succesfully`,
+              });
+              this.$emit("saved", {});
+            })
+            .catch((error) => {
+              console.log(error);
+              this.handleCommonErrors(error);
+              this.loading = false;
+            });
+        },
+        onCancel() {
+          console.log("Cancel");
+        },
+      });
+    },
+    copyList() {},
   },
 };
 </script>

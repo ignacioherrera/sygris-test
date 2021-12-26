@@ -14,7 +14,8 @@ export default {
     console.log(params);
     return api.put(apiEndpoints.NODES, params);
   },
-  delete(id) {
-    return api.delete(apiEndpoints.NODES, { id: id });
+  delete(params) {
+    console.log({ params });
+    return api.delete(apiEndpoints.NODES, params);
   },
 };

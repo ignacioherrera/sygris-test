@@ -17,6 +17,7 @@ Vue.use(Button);
 Vue.use(Input);
 Vue.use(Icon);
 Vue.use(Spin);
+Vue.prototype.$confirm = Modal.confirm;
 
 Vue.mixin(Mixins);
 
