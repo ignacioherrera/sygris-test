@@ -61,6 +61,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import CreateNodeModal from "./CreateNodeModal.vue";
+import { notificationTypes } from "@/constants";
 
 export default {
   components: { CreateNodeModal },
@@ -76,6 +77,7 @@ export default {
     node: Object,
   },
   mounted() {
+    this.$bus.$on("toggle-lists", this.generalOpen);
     this.open =
       this.openNodes[this.node.id] === undefined
         ? false
@@ -99,6 +101,10 @@ export default {
       this.open = !this.open;
       this.toggleNode({ id: this.node.id, value: this.open });
     },
+    generalOpen(open) {
+      this.open = open;
+      this.toggleNode({ id: this.node.id, value: this.open });
+    },
     createChildren() {
       this.visibleCreate = true;
     },
@@ -115,7 +121,7 @@ export default {
         })
         .catch(() => {
           this.createNotification({
-            type: this.$constants.notificationTypes.ERROR,
+            type: notificationTypes.ERROR,
             message: "Loading the node list",
           });
           this.loadingChilds = false;

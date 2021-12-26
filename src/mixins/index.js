@@ -21,7 +21,7 @@ const Utils = {
       }
       if (error.response)
         this.createNotification({
-          type: this.$constants.notificationTypes.ERROR,
+          type: notificationTypes.ERROR,
           message: message,
         });
     },

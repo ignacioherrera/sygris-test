@@ -7,9 +7,31 @@
         @saved="savedNode"
       ></create-node-modal>
       <h1>Nodes</h1>
-      <a-button type="primary" @click="createRootNode"
-        ><a-icon type="plus-circle" /> Add Node</a-button
-      >
+      <div>
+        <a-button
+          type="primary"
+          @click="
+            () => {
+              toggleAllLists(false);
+            }
+          "
+          class="home-function close-lists"
+          >Close All</a-button
+        >
+        <a-button
+          type="primary"
+          @click="
+            () => {
+              toggleAllLists(true);
+            }
+          "
+          class="home-function open-lists"
+          >Open All</a-button
+        >
+        <a-button type="primary" @click="createRootNode" class="home-function"
+          ><a-icon type="plus-circle" /> Add Node</a-button
+        >
+      </div>
     </div>
     <div class="list-body">
       <node
@@ -55,6 +77,9 @@ export default {
       this.loadNodes();
       this.cancelCreate();
     },
+    toggleAllLists(open) {
+      this.$bus.$emit("toggle-lists", open);
+    },
     loadNodes() {
       this.loading = true;
       this.getNodeList()
@@ -77,5 +102,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.home-function {
+  margin-left: 5px;
 }
 </style>

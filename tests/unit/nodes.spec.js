@@ -1,7 +1,10 @@
 import { shallowMount, createLocalVue, mount } from "@vue/test-utils";
 import Node from "@/components/nodes/Node.vue";
 import Vuex from "vuex";
+import Vue from "vue";
 const localVue = createLocalVue();
+const bus = new Vue();
+localVue.prototype.$bus = bus;
 import { Modal, Button, Input, Icon, Spin } from "ant-design-vue";
 localVue.use(Modal);
 localVue.use(Button);
@@ -135,6 +138,7 @@ describe("Node tests", () => {
     updated: "2021-12-24T23:45:26.672Z",
     level: 1,
   };
+
   it("node gets all childs", () => {
     const wrapper = shallowMount(Node, {
       propsData: {
@@ -162,7 +166,6 @@ describe("Node tests", () => {
     await wrapper.findComponent(".collapse-btn").trigger("click");
     expect(wrapper.vm.open).toBeTruthy();
     expect(wrapper.find(".childrens-container-open").exists()).toBe(true);
-
     /** Click the toggle button, check open property is true and if the class .childrens-container-open that changes the height is added to the childrens container */
     await wrapper.findComponent(".collapse-btn").trigger("click");
     expect(wrapper.vm.open).toBeFalsy();

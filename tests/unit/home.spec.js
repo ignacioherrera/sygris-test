@@ -3,7 +3,9 @@ import Node from "@/components/nodes/Node.vue";
 import CreateNodeModal from "@/components/nodes/CreateNodeModal.vue";
 import Home from "@/views/app/Home.vue";
 import Vuex from "vuex";
+import Vue from "vue";
 const localVue = createLocalVue();
+const bus = new Vue();
 import { Modal, Button, Input, Icon, Spin } from "ant-design-vue";
 localVue.use(Modal);
 localVue.use(Button);
@@ -12,6 +14,9 @@ localVue.use(Icon);
 localVue.use(Spin);
 localVue.component("node", Node);
 localVue.component("create-node-modal", CreateNodeModal);
+localVue.prototype.$bus = bus;
+
+//function count children nodes
 
 describe("Home displays nodes correctly", () => {
   /**Store mock */
@@ -113,6 +118,7 @@ describe("Home displays nodes correctly", () => {
     openNodes: {},
   };
   const actions = {
+    toggleNode() {},
     getNodeList() {
       return new Promise((resolve) => {
         resolve();
@@ -141,16 +147,27 @@ describe("Home displays nodes correctly", () => {
       nodeComponents.filter((item) => item.vm.node.level !== 0).length
     ).toBe(0);
   });
-  /**
-Home display root nodes and every node displays its childrens, the next test is to check that the 
-number of nodes displayed is equal to the lenght of the list from the api saved in the store state
- */
-  it("Home display all nodes", () => {
+
+  it("Open all lists", async () => {
     const wrapper = mount(Home, {
       store,
       localVue,
     });
+    await wrapper.findComponent(".open-lists").trigger("click");
     const nodeComponents = wrapper.findAllComponents(Node);
-    expect(nodeComponents.length).toBe(12);
+    expect(nodeComponents.filter((item) => item.vm.open === false).length).toBe(
+      0
+    );
+  });
+  it("Close all lists", async () => {
+    const wrapper = mount(Home, {
+      store,
+      localVue,
+    });
+    await wrapper.findComponent(".close-lists").trigger("click");
+    const nodeComponents = wrapper.findAllComponents(Node);
+    expect(nodeComponents.filter((item) => item.vm.open === true).length).toBe(
+      0
+    );
   });
 });

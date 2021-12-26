@@ -15,6 +15,8 @@
 </template>
 <script>
 import api from "@/services/nodes";
+import { notificationTypes } from "@/constants";
+
 export default {
   name: "CreateNodeModal",
   data() {
@@ -60,7 +62,7 @@ export default {
         .create(params)
         .then((res) => {
           this.createNotification({
-            type: this.$constants.notificationTypes.SUCCESS,
+            type: notificationTypes.SUCCESS,
             message: `Node ${res.data.name} created succesfully`,
           });
           this.$emit("saved", {});
